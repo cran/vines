@@ -1,0 +1,98 @@
+# vines: Multivariate Dependence Modeling with Vines
+# Copyright (C) 2010, 2011 Yasser González-Fernández <ygf@icmf.inf.cu>
+# Copyright (C) 2010, 2011 Marta Soto <mrosa@icmf.inf.cu>
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+
+setGeneric("h", 
+        function (copula, x, v) standardGeneric("h"),
+        signature = "copula")
+
+
+hCopula <- function (copula, x, v) {
+    eps <- .Machine$double.eps^0.5
+    
+    env <- new.env()
+    assign("copula", copula, env)
+    assign("x", pmax(pmin(x, 1 - eps), eps), env)
+    assign("v", pmax(pmin(v, 1 - eps), eps), env)
+    d <- numericDeriv(quote(pcopula(copula, cbind(x, v))), "v", env)
+    r <- diag(attr(d, "gradient"))
+    pmax(pmin(r, 1 - eps), eps)
+}
+
+setMethod("h", "copula", hCopula)
+
+
+hIndepCopula <- function (copula, x, v) {
+    .Call(C_hIndepCopula, x, v)
+}
+
+setMethod("h", "indepCopula", hIndepCopula)
+
+hNormalCopula <- function (copula, x, v) {
+    rho <- copula@parameters
+    .Call(C_hNormalCopula, rho, x, v)
+}
+
+setMethod("h", "normalCopula", hNormalCopula)
+
+
+hTCopula <- function (copula, x, v) {
+    rho <- copula@parameters
+    df <- if (copula@df.fixed) copula@df else copula@parameters[2]
+    .Call(C_hTCopula, rho, df, x, v)
+}
+
+setMethod("h", "tCopula", hTCopula)
+
+
+hClaytonCopula <- function (copula, x, v) {
+    theta <- min(copula@parameters, 100)
+    .Call(C_hClaytonCopula, theta, x, v)
+}
+
+setMethod("h", "claytonCopula", hClaytonCopula)
+
+
+hGumbelCopula <- function (copula, x, v) {
+    theta <- min(copula@parameters, 100)
+    .Call(C_hGumbelCopula, theta, x, v)
+}
+
+setMethod("h", "gumbelCopula", hGumbelCopula)
+
+
+hFGMCopula <- function (copula, x, v) {
+    theta <- copula@parameters
+    .Call(C_hFGMCopula, theta, x, v)
+}
+
+setMethod("h", "fgmCopula", hFGMCopula)
+
+
+hGalambosCopula <- function (copula, x, v) {
+    theta <- min(copula@parameters, 25)
+    .Call(C_hGalambosCopula, theta, x, v)
+}
+
+setMethod("h", "galambosCopula", hGalambosCopula)
+
+
+hFrankCopula <- function (copula, x, v) {
+    theta <- max(min(copula@parameters, 100), -100)
+    .Call(C_hFrankCopula, theta, x, v)
+}
+
+setMethod("h", "frankCopula", hFrankCopula)

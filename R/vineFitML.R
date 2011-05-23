@@ -1,0 +1,157 @@
+# vines: Multivariate Dependence Modeling with Vines
+# Copyright (C) 2010, 2011 Yasser González-Fernández <ygf@icmf.inf.cu>
+# Copyright (C) 2010, 2011 Marta Soto <mrosa@icmf.inf.cu>
+#
+# This program is free software: you can redistribute it and/or modify it under
+# the terms of the GNU General Public License as published by the Free Software
+# Foundation, either version 3 of the License, or (at your option) any later
+# version.
+#
+# This program is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+# details.
+#
+# You should have received a copy of the GNU General Public License along with
+# this program. If not, see <http://www.gnu.org/licenses/>.
+
+setClass("vineFitML",
+        contains = "vineFit",
+        representation = representation(
+                optimMethod = "character",
+                optimConv = "numeric",
+                startParams = "numeric",
+                finalParams = "numeric"),
+        prototype = prototype(
+                method = "ml"))
+
+
+showVineFitML <- function (object) {
+    showVineFit(object)
+    cat("Optimization method:", object@optimMethod, "\n")
+    cat("Convergence code:", object@optimConv, "\n")
+}
+
+setMethod("show", "vineFitML", showVineFitML)
+
+
+vineLogLik <- function (vine, data) {
+    evalCopula <- function (vine, j, i, x, y) {
+        copula <- vine@copulas[[j, i]]
+        loglikCopula(copula@parameters, cbind(x, y), copula)
+    }
+    vineIterResult <- vineIter(vine, data, evalCopula = evalCopula)
+    sum(unlist(vineIterResult$evals))
+}
+
+
+# Function used by the AIC and BIC truncation methods to evaluate
+# only the log-likelihood of the copulas in the last tree.
+vineLogLikLastTree <- function (vine, data) {
+    evalCopula <- function (vine, j, i, x, y) {
+        if (j == vine@trees) {
+            copula <- vine@copulas[[j, i]]
+            loglikCopula(copula@parameters, cbind(x, y), copula)
+        } else {
+            0
+        }
+    }
+    vineIterResult <- vineIter(vine, data, evalCopula = evalCopula)
+    sum(unlist(vineIterResult$evals))
+}
+
+truncVineAIC <- function (smallModel, fullModel, data) {
+    p <- length(vineParameters(fullModel)) -
+            length(vineParameters(smallModel))
+    0 <= -2*vineLogLikLastTree(fullModel, data) + 2*p
+}
+
+truncVineBIC <- function (smallModel, fullModel, data) {
+    k <- log(nrow(data))
+    p <- length(vineParameters(fullModel)) -
+            length(vineParameters(smallModel))
+    0 <= -2*vineLogLikLastTree(fullModel, data) + k*p
+}
+
+
+vineFitML <- function (type, data, trees = ncol(data) - 1, truncMethod = "",
+        selectCopula = function (vine, j, i, x, y) indepCopula(),
+        optimMethod = "Nelder-Mead", optimControl = list()) {
+    if (nzchar(truncMethod)) {
+        if (identical(truncMethod, "AIC")) {
+            truncVine <- truncVineAIC
+        } else if (identical(truncMethod, "BIC")) {
+            truncVine <- truncVineBIC
+        } else {
+            stop("invalid vine truncation method ", dQuote(truncMethod))
+        }
+    } else {
+        truncVine = NULL
+    }
+
+    # Compute starting values for the parameters of the copulas in the
+    # pair-copula construction following the estimation procedure described in
+    # Section 7 of Aas, K., Czado, C., Frigessi, A. and Bakken, H. Pair-copula
+    # constructions of multiple dependence. Insurance Mathematics and Economics,
+    # 2009, Vol. 44, pp. 182-198.
+    vine <- Vine(type, dimension = ncol(data), trees = trees,
+            copulas = matrix(list(), ncol(data) - 1, ncol(data) - 1))
+    dimnames(vine) <- colnames(data)
+    vineIterResult <- vineIter(vine, data,
+            selectCopula = selectCopula, truncVine = truncVine)
+    vine <- vineIterResult$vine
+    startParams <- vineParameters(vine)
+
+    if (nzchar(optimMethod) && length(startParams) > 0) {
+        # Optimization method.
+
+        lowerParams <- unlist(lapply(vine@copulas,
+                    function (x) if (is.null(x)) numeric(0) else x@param.lowbnd))
+        upperParams <- unlist(lapply(vine@copulas,
+                    function (x) if (is.null(x)) numeric(0) else x@param.upbnd))
+
+        if (identical(optimMethod, "L-BFGS-B")) {
+            lower <- lowerParams
+            upper <- upperParams
+        } else {
+            lower <- -Inf
+            upper <- Inf
+        }
+
+        logLik <- function (x, vine, data, lowerParams, upperParams) {
+            if (all(is.finite(x) & x >= lowerParams & x <= upperParams)) {
+                vineParameters(vine) <- x
+                vineLogLik(vine, data)
+            } else {
+                NA
+            }
+        }
+
+        optimControl <- c(optimControl, fnscale = -1)
+        optimResult <- optim(startParams, logLik, lower = lower, upper = upper,
+                method = optimMethod, control = optimControl, vine = vine,
+                data = data, lowerParams = lowerParams, upperParams = upperParams)
+
+        vineParameters(vine) <- optimResult$par
+
+        fit <- new("vineFitML", 
+                vine = vine,
+                observations = nrow(data),
+                optimMethod = optimMethod,
+                optimConv = optimResult$convergence,
+                startParams = startParams,
+                finalParams = optimResult$par)
+    } else {
+        # Optimization disabled or a vine without parameters.
+
+        fit <- new("vineFitML", 
+                vine = vine,
+                observations = nrow(data), 
+                optimMethod = optimMethod,
+                optimConv = 0,
+                startParams = startParams,
+                finalParams = startParams)
+    }
+
+    fit
+}
