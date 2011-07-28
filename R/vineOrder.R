@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010, 2011 Yasser Gonz√°lez-Fern√°ndez <ygf@icmf.inf.cu>
-# Copyright (C) 2010, 2011 Marta Soto <mrosa@icmf.inf.cu>
+# Copyright (C) 2010, 2011 Yasser Gonz·lez-Fern·ndez <ygf@icimaf.cu>
+# Copyright (C) 2010, 2011 Marta Soto <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -71,7 +71,7 @@ vineOrder <- function (type, data, method = "greedy", ...) {
     } else if (identical(method, "random")) {
         vineOrderRandom(type, data)
     } else {
-        stop("invalid ordering method ", dQuote(method), 
+        stop("invalid ordering method ", dQuote(method),
                 " for ", dQuote(type))
     }
 }

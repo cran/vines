@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010, 2011 Yasser Gonz√°lez-Fern√°ndez <ygf@icmf.inf.cu>
-# Copyright (C) 2010, 2011 Marta Soto <mrosa@icmf.inf.cu>
+# Copyright (C) 2010, 2011 Yasser Gonz·lez-Fern·ndez <ygf@icimaf.cu>
+# Copyright (C) 2010, 2011 Marta Soto <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -46,7 +46,7 @@ vineLogLik <- function (vine, data) {
 
 
 # Function used by the AIC and BIC truncation methods to evaluate
-# only the log-likelihood of the copulas in the last tree.
+# the log-likelihood of the copulas in the last tree.
 vineLogLikLastTree <- function (vine, data) {
     evalCopula <- function (vine, j, i, x, y) {
         if (j == vine@trees) {

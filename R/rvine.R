@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010, 2011 Yasser Gonz√°lez-Fern√°ndez <ygf@icmf.inf.cu>
-# Copyright (C) 2010, 2011 Marta Soto <mrosa@icmf.inf.cu>
+# Copyright (C) 2010, 2011 Yasser Gonz·lez-Fern·ndez <ygf@icimaf.cu>
+# Copyright (C) 2010, 2011 Marta Soto <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,7 +21,7 @@ setGeneric("rvine",
 
 
 rCVine <- function (vine, n) {
-    # Algorithm 1 from Aas, K., Czado, C., Frigessi, A. & Bakken, H.
+    # Algorithm 1 of Aas, K., Czado, C., Frigessi, A. & Bakken, H.
     # Pair-copula constructions of multiple dependence. Insurance
     # Mathematics and Economics, 2009, Vol. 44, pp. 182-198.
 
@@ -65,7 +65,7 @@ setMethod("rvine", "CVine", rCVine)
 
 
 rDVine <- function (vine, n) {
-    # Algorithm 2 from Aas, K., Czado, C., Frigessi, A. & Bakken, H. 
+    # Algorithm 2 of Aas, K., Czado, C., Frigessi, A. & Bakken, H. 
     # Pair-copula constructions of multiple dependence. Insurance 
     # Mathematics and Economics, 2009, Vol. 44, pp. 182-198.
     

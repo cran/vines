@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010, 2011 Yasser Gonz√°lez-Fern√°ndez <ygf@icmf.inf.cu>
-# Copyright (C) 2010, 2011 Marta Soto <mrosa@icmf.inf.cu>
+# Copyright (C) 2010, 2011 Yasser Gonz·lez-Fern·ndez <ygf@icimaf.cu>
+# Copyright (C) 2010, 2011 Marta Soto <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -23,7 +23,7 @@ setGeneric("vineIter",
 
 
 iterCVine <- function (vine, data, evalCopula, selectCopula, truncVine) {
-    # Algorithm 3 from Aas, K., Czado, C., Frigessi, A. & Bakken, H.
+    # Algorithm 3 of Aas, K., Czado, C., Frigessi, A. & Bakken, H.
     # Pair-copula constructions of multiple dependence. Insurance
     # Mathematics and Economics, 2009, Vol. 44, pp. 182-198.
 
@@ -86,7 +86,7 @@ setMethod("vineIter", "CVine", iterCVine)
 
 
 iterDVine <- function (vine, data, evalCopula, selectCopula, truncVine) {
-    # Algorithm 4 from Aas, K., Czado, C., Frigessi, A. & Bakken, H.
+    # Algorithm 4 of Aas, K., Czado, C., Frigessi, A. & Bakken, H.
     # Pair-copula constructions of multiple dependence. Insurance
     # Mathematics and Economics, 2009, Vol. 44, pp. 182-198.
     
@@ -123,7 +123,7 @@ iterDVine <- function (vine, data, evalCopula, selectCopula, truncVine) {
     }
     
     if (is.function(truncVine)) {
-        # Truncate? If true, returns the vine without trees. 
+        # Truncate? If true, return the vine without trees. 
         fullModel <- vine
         fullModel@trees <- 1
         if (truncVine(smallModel, fullModel, data)) {
