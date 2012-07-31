@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010, 2011 Yasser González-Fernández <ygf@icimaf.cu>
-# Copyright (C) 2010, 2011 Marta Soto <mrosa@icimaf.cu>
+# Copyright (C) 2010-2012 Yasser González Fernández <ygonzalezfernandez@gmail.com>
+# Copyright (C) 2010-2012 Marta Rosa Soto Ortiz <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -27,7 +27,7 @@ hCopula <- function (copula, x, v) {
     assign("copula", copula, env)
     assign("x", pmax(pmin(x, 1 - eps), eps), env)
     assign("v", pmax(pmin(v, 1 - eps), eps), env)
-    d <- numericDeriv(quote(pcopula(copula, cbind(x, v))), "v", env)
+    d <- numericDeriv(quote(pCopula(cbind(x, v), copula)), "v", env)
     r <- diag(attr(d, "gradient"))
     pmax(pmin(r, 1 - eps), eps)
 }

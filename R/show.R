@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010, 2011 Yasser González-Fernández <ygf@icimaf.cu>
-# Copyright (C) 2010, 2011 Marta Soto <mrosa@icimaf.cu>
+# Copyright (C) 2010-2012 Yasser González Fernández <ygonzalezfernandez@gmail.com>
+# Copyright (C) 2010-2012 Marta Rosa Soto Ortiz <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -26,7 +26,7 @@ toStringCopula <- function (x, ...) {
     } else {
         parameters <- ""
     }
-    paste(sub('[[:space:]]+$', '', x@message), parameters, sep = "")
+    paste(sub('[[:space:]]+$', '', x@fullname), parameters, sep = "")
 }
 
 setMethod("toString", "copula", toStringCopula)
