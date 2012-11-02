@@ -1,6 +1,6 @@
-886a95fad0e006037b18617cd5621bdf *DESCRIPTION
+1aa2eccce687226dd0fe4d251862b660 *DESCRIPTION
 a5dc71303aef2e05e99ea3c351b15a60 *NAMESPACE
-0e751f1820d724cec617fc8f7dfda7f6 *NEWS
+c16328166af32e10320ba1b923e1dbf7 *NEWS
 f7cecd32931df546a56ed00f3590140f *R/Vine.R
 9d64a4703f100ea67553dca24a0f8676 *R/dimnames.R
 cf23b51866ae504b5b906f6767fa84a0 *R/dvine.R
@@ -39,4 +39,4 @@ adf891b27ed9ed573f6e51c602084dfb *man/vineParameters.Rd
 2ffff9c4133c0e9baa32e8e785eb6575 *src/hinverse.c
 932e26edfc13f977f7049fe8376eb89d *src/hinverse.h
 53556ef8bfbedf46045aceed38c0c38b *src/register.c
-87efa0ec8027523dbd5d0c0d45f9c220 *tests/hfunctions.R
+070817f813247110b58faf2ee537888d *tests/hfunctions.R
