@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010-2012 Yasser González Fernández <ygonzalezfernandez@gmail.com>
-# Copyright (C) 2010-2012 Marta Rosa Soto Ortiz <mrosa@icimaf.cu>
+# Copyright (C) 2010-2013 Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
+# Copyright (C) 2010-2013 Marta Soto <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,15 +22,15 @@ setGeneric("dvine",
 
 dCVineDVine <- function (vine, u) {
     if (is.vector(u)) u <- matrix(u, nrow = 1)
-    
+
     if (vine@trees == 0) {
         rep(1, nrow(u)) # The product of the uniform marginal densities.
     } else {
         evalCopula <- function (vine, j, i, x, y) {
-            dCopula(cbind(x, y), vine@copulas[[j, i]])
+            dCopula(cbind(x, y), vine@copulas[[j, i]], log = TRUE)
         }
         iterResult <- vineIter(vine, u, evalCopula = evalCopula)
-        apply(matrix(unlist(iterResult$evals), nrow(u)), 1, prod)
+        exp(apply(matrix(unlist(iterResult$evals), nrow(u)), 1, sum))
     }
 }
 
