@@ -4,6 +4,7 @@
 
 \alias{Vine-class}
 \alias{show,Vine-method}
+\alias{dimnames<-,Vine,ANY-method}
 \alias{dimnames<-,Vine-method}
 \alias{dimnames,Vine-method}
 

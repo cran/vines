@@ -1,11 +1,12 @@
 Type: Package
 Package: vines
 Title: Multivariate Dependence Modeling with Vines
-Version: 1.0.7
-Date: 2013-04-16
-Author: Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com> and
-        Marta Soto <mrosa@icimaf.cu>
-Maintainer: Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
+Version: 1.0.8
+Date: 2013-05-14
+Authors@R: c(person("Yasser", "Gonzalez-Fernandez", role = c("aut",
+        "cre"), email = "ygonzalezfernandez@gmail.com"),
+        person("Marta", "Soto", role = "aut", email =
+        "mrosa@icimaf.cu"))
 Description: Vines are graphical models for pair-copula constructions
         that allow building high-dimensional distributions using
         bivariate copulas and marginal density functions. This package
@@ -19,7 +20,9 @@ Depends: methods, copula, ADGofTest, cubature, TSP
 Collate: h.R hinverse.R Vine.R show.R dimnames.R vineParameters.R
         vineIter.R vineFit.R vineFitML.R vinePIT.R vineGoF.R
         vineOrder.R dvine.R pvine.R rvine.R
-Packaged: 2013-04-16 16:03:47 UTC; ygf
+Packaged: 2013-05-14 17:28:31 UTC; ygf
+Author: Yasser Gonzalez-Fernandez [aut, cre], Marta Soto [aut]
+Maintainer: Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
 NeedsCompilation: yes
 Repository: CRAN
-Date/Publication: 2013-04-16 19:36:24
+Date/Publication: 2013-05-14 21:43:01

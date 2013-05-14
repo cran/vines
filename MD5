@@ -1,6 +1,6 @@
-74a323841be15f3a3a5510b7f64c3991 *DESCRIPTION
+b171ad4f26110b8eea320eca02bba23d *DESCRIPTION
 a5dc71303aef2e05e99ea3c351b15a60 *NAMESPACE
-b87eb020fe923e623f7617abc158508d *NEWS
+d752d650fea07dee67387538dcfeadec *NEWS
 32106bb4494a9eba38fed156fc542016 *R/Vine.R
 e1768b5c51a8a217b336c64f05e57df7 *R/dimnames.R
 67f8a71dee8fd01c3e3252d7fe9b7761 *R/dvine.R
@@ -20,7 +20,7 @@ de23298cf6d6a605034c85319ec1b4c1 *R/vineOrder.R
 8951ab3aaac855a739220de793d29b13 *man/CVine-class.Rd
 ce9ffa8d809b9f3db2aded16090efa36 *man/DVine-class.Rd
 7de3e23d370811119a24d18893b3f19e *man/RVine-class.Rd
-17cbb2387c5bd29b2761d029893515d9 *man/Vine-class.Rd
+1b8c4d120164c9c5e6da2d9d4dd111b8 *man/Vine-class.Rd
 9f4ea8f057735e9d39d3e36dd0d04204 *man/Vine-distribution.Rd
 d1088f217bf070e5637ba1b05996ec87 *man/Vine.Rd
 e165100d06edfd3efd7508a037e4467e *man/h-methods.Rd
