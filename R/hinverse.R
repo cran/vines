@@ -1,6 +1,6 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2010-2013 Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
-# Copyright (C) 2010-2013 Marta Soto <mrosa@icimaf.cu>
+# Copyright (C) 2011-2014 Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
+# Copyright (C) 2011-2014 Marta Soto <mrosa@icimaf.cu>
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -16,8 +16,8 @@
 # this program. If not, see <http://www.gnu.org/licenses/>.
 
 setGeneric("hinverse", 
-        function (copula, u, v) standardGeneric("hinverse"),
-        signature = "copula")
+    function (copula, u, v) standardGeneric("hinverse"),
+    signature = "copula")
 
 
 hinverseCopula <- function (copula, u, v) {
