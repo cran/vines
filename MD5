@@ -1,6 +1,6 @@
-c7cc0182e5530e7a7c20bfa62327e9e2 *DESCRIPTION
-07db3ba3aef7fc29cc74e7e346b29c8d *NAMESPACE
-918b4c88650626930679b814ea29ca54 *NEWS
+a54a1cb12e03b7a806371fd58d725968 *DESCRIPTION
+2e80d4d50245828177c4892611e3e8ba *NAMESPACE
+3f6dc32440746644ce743fe5b7663172 *NEWS
 22f2adc3cb98c744fa4ab3fb0b4a060d *R/Vine.R
 d9b91c764783175ca96cb9c09113483a *R/dimnames.R
 d468f904c54b7df21c1a751a7daae914 *R/dvine.R
@@ -26,10 +26,10 @@ d1088f217bf070e5637ba1b05996ec87 *man/Vine.Rd
 9dcea67bdc6ce67b9eace3d1cf64a926 *man/h-methods.Rd
 de4ef76aa5e3e7ca9df195a5341dd006 *man/hinverse-methods.Rd
 40d5a9c502dfd187eb0329a5b7108627 *man/vineFit-class.Rd
-d03d3a1b6515f98d7ecefd05957d75a8 *man/vineFit.Rd
+2624cb70b8d2884d87cc17fbdab91876 *man/vineFit.Rd
 e3e6f29aeaffb556b3b9010568eabc5e *man/vineFitML-class.Rd
 e40ecf994f07dd08a3f56281267997a9 *man/vineGoF-class.Rd
-47aaddb15206bffcaef1dd563fcdb99c *man/vineGoF.Rd
+ec3f0e60dffefcc0153fb998277b75db *man/vineGoF.Rd
 156f509d6d50c00c13b44ce7c7d8b461 *man/vineLogLik.Rd
 41a21bd10d2db7c843ed1eb217c9961a *man/vineOrder.Rd
 05636547792fe90c39562e9a26192646 *man/vinePIT-methods.Rd
@@ -39,4 +39,4 @@ adf891b27ed9ed573f6e51c602084dfb *man/vineParameters.Rd
 a4fd4581e29d8a6e15e42695c6a0bffb *src/hinverse.c
 2483a8a685a15d2a9560d3b66f3797d7 *src/hinverse.h
 7d85bd3c3844fb28a59812596e901472 *src/register.c
-59d99b471de45530d6fb7d35229d5211 *tests/hfunctions.R
+5ae02330f1141c95b575fb1ad0e3ebea *tests/hfunctions.R
