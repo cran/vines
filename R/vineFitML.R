@@ -38,7 +38,7 @@ setMethod("show", "vineFitML", showVineFitML)
 loglikCopulaWrapper <- function(param, x, copula, ...) {
     if (is(copula, "normalCopula") || is(copula, "tCopula")) {
         # Return a finite value for rho in {-1, 1} for numerical stability
-        # during the vineLogLik and  vineLogLikLastTree calls.
+        # during the vineLogLik and vineLogLikLastTree calls.
         eps <- .Machine$double.eps^0.5
         param[1] <- max(min(param[1], 1 - eps), -1 + eps)
     }
@@ -98,7 +98,7 @@ vineFitML <- function (type, data, trees = ncol(data) - 1, truncMethod = "",
             stop("invalid vine truncation method ", dQuote(truncMethod))
         }
     } else {
-        truncVine = NULL
+        truncVine <- NULL
     }
 
     # Compute starting values for the parameters of the copulas in the
@@ -115,12 +115,19 @@ vineFitML <- function (type, data, trees = ncol(data) - 1, truncMethod = "",
     startParams <- vineParameters(vine)
 
     if (nzchar(optimMethod) && length(startParams) > 0) {
-        # Optimization method.
+        # Optimization enabled.
 
-        lowerParams <- unlist(lapply(vine@copulas,
-                    function (x) if (is.null(x)) numeric(0) else x@param.lowbnd))
-        upperParams <- unlist(lapply(vine@copulas,
-                    function (x) if (is.null(x)) numeric(0) else x@param.upbnd))
+        # Bounds must match the order returned by vineParameters.
+        lowerParams <- numeric(0)
+        upperParams <- numeric(0)
+        for (j in seq(nrow(vine@copulas))) {
+            for (i in seq(ncol(vine@copulas))) {
+                if (is(vine@copulas[[j,i]], "copula")) {
+                    lowerParams <- c(lowerParams, vine@copulas[[j,i]]@param.lowbnd)
+                    upperParams <- c(upperParams, vine@copulas[[j,i]]@param.upbnd)
+                }
+            }
+        }
 
         if (identical(optimMethod, "L-BFGS-B")) {
             lower <- lowerParams
