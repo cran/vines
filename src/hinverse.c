@@ -1,20 +1,19 @@
-/* vines: Multivariate Dependence Modeling with Vines
- * Copyright (C) 2011-2015 Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
- * Copyright (C) 2011-2015 Marta Soto <mrosa@icimaf.cu>
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
- */
+// vines: Multivariate Dependence Modeling with Vines
+// Copyright (C) 2011-2015 Yasser Gonzalez Fernandez
+// Copyright (C) 2011-2015 Marta Soto Ortiz
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <R.h>
 #include <Rinternals.h>
@@ -33,7 +32,7 @@ SEXP hinverseIndepCopula(SEXP U, SEXP V) {
  * Gaussian, Student's t, Clayton and Gumbel copulas.
  */
 
-SEXP hinverseNormalCopula(SEXP Rho, SEXP U, SEXP V) {
+SEXP hinverseNormalCopula(SEXP Rho, SEXP U, SEXP V, SEXP Eps) {
     double eps;
     double rho;
     double *u, *v, *x;
@@ -41,7 +40,7 @@ SEXP hinverseNormalCopula(SEXP Rho, SEXP U, SEXP V) {
     SEXP X;
 
     PROTECT(X = allocVector(REALSXP, LENGTH(U)));
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     rho = asReal(Rho);
     u = REAL(U);
     v = REAL(V);
@@ -65,7 +64,7 @@ SEXP hinverseNormalCopula(SEXP Rho, SEXP U, SEXP V) {
     return X;
 }
 
-SEXP hinverseTCopula(SEXP Rho, SEXP Df, SEXP U, SEXP V) {
+SEXP hinverseTCopula(SEXP Rho, SEXP Df, SEXP U, SEXP V, SEXP Eps) {
     double eps;
     double rho, df;
     double *u, *v, *x;
@@ -73,7 +72,7 @@ SEXP hinverseTCopula(SEXP Rho, SEXP Df, SEXP U, SEXP V) {
     SEXP X;
 
     PROTECT(X = allocVector(REALSXP, LENGTH(U)));
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     rho = asReal(Rho);
     df = asReal(Df);
     u = REAL(U);
@@ -100,14 +99,14 @@ SEXP hinverseTCopula(SEXP Rho, SEXP Df, SEXP U, SEXP V) {
     return X;
 }
 
-SEXP hinverseClaytonCopula(SEXP Theta, SEXP U, SEXP V) {
+SEXP hinverseClaytonCopula(SEXP Theta, SEXP U, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *u, *v, *x;
     double vi, xi;
     SEXP X;
 
-    eps = R_pow(DOUBLE_EPS, 0.15);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     if (theta <= eps) {
@@ -142,14 +141,14 @@ SEXP hinverseClaytonCopula(SEXP Theta, SEXP U, SEXP V) {
  * for the expression for the Frank copula.
  */
 
-SEXP hinverseFrankCopula(SEXP Theta, SEXP U, SEXP V) {
+SEXP hinverseFrankCopula(SEXP Theta, SEXP U, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *u, *v, *x;
     double xi;
     SEXP X;
 
-    eps = R_pow(DOUBLE_EPS, 0.15);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     if (fabs(theta) <= eps) {

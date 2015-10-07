@@ -1,27 +1,27 @@
 # vines: Multivariate Dependence Modeling with Vines
-# Copyright (C) 2011-2015 Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
-# Copyright (C) 2011-2015 Marta Soto <mrosa@icimaf.cu>
+# Copyright (C) 2011-2015 Yasser Gonzalez Fernandez
+# Copyright (C) 2011-2015 Marta Soto Ortiz
 #
-# This program is free software: you can redistribute it and/or modify it under
-# the terms of the GNU General Public License as published by the Free Software
-# Foundation, either version 3 of the License, or (at your option) any later
-# version.
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
 #
-# This program is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
-# details.
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+# General Public License for more details.
 #
-# You should have received a copy of the GNU General Public License along with
-# this program. If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 setGeneric("hinverse",
-    function (copula, u, v) standardGeneric("hinverse"),
+    function (copula, u, v, eps = .Machine$double.eps^0.5)
+        standardGeneric("hinverse"),
     signature = "copula")
 
 
-hinverseCopula <- function (copula, u, v) {
-    eps <- .Machine$double.eps^0.5
+hinverseCopula <- function (copula, u, v, eps) {
     r0 <- u <= eps
     r1 <- abs(1 - u) <= eps
     skip <- r0 | r1
@@ -44,43 +44,41 @@ hinverseCopula <- function (copula, u, v) {
 setMethod("hinverse", "copula", hinverseCopula)
 
 
-hinverseIndepCopula <- function (copula, u, v) {
+hinverseIndepCopula <- function (copula, u, v, eps) {
     .Call(C_hinverseIndepCopula, u, v)
 }
 
 setMethod("hinverse", "indepCopula", hinverseIndepCopula)
 
 
-hinverseNormalCopula <- function (copula, u, v) {
-    eps <- .Machine$double.eps^0.5
+hinverseNormalCopula <- function (copula, u, v, eps) {
     rho <- max(min(copula@parameters, 1 - eps), -1 + eps)
-    .Call(C_hinverseNormalCopula, rho, u, v)
+    .Call(C_hinverseNormalCopula, rho, u, v, eps)
 }
 
 setMethod("hinverse", "normalCopula", hinverseNormalCopula)
 
 
-hinverseTCopula <- function (copula, u, v) {
-    eps <- .Machine$double.eps^0.5
+hinverseTCopula <- function (copula, u, v, eps) {
     rho <- max(min(copula@parameters[1], 1 - eps), -1 + eps)
     df <- if (copula@df.fixed) copula@df else copula@parameters[2]
-    .Call(C_hinverseTCopula, rho, df, u, v)
+    .Call(C_hinverseTCopula, rho, df, u, v, eps)
 }
 
 setMethod("hinverse", "tCopula", hinverseTCopula)
 
 
-hinverseClaytonCopula <- function (copula, u, v) {
-    theta <- min(copula@parameters, 100)
-    .Call(C_hinverseClaytonCopula, theta, u, v)
+hinverseClaytonCopula <- function (copula, u, v, eps = .Machine$double.eps^0.25) {
+    theta <- min(copula@parameters, 75)
+    .Call(C_hinverseClaytonCopula, theta, u, v, eps)
 }
 
 setMethod("hinverse", "claytonCopula", hinverseClaytonCopula)
 
 
-hinverseFrankCopula <- function (copula, u, v) {
-    theta <- max(min(copula@parameters, 100), -100)
-    .Call(C_hinverseFrankCopula, theta, u, v)
+hinverseFrankCopula <- function (copula, u, v, eps) {
+    theta <- max(min(copula@parameters, 45), -45)
+    .Call(C_hinverseFrankCopula, theta, u, v, eps)
 }
 
 setMethod("hinverse", "frankCopula", hinverseFrankCopula)

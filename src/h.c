@@ -1,20 +1,19 @@
-/* vines: Multivariate Dependence Modeling with Vines
- * Copyright (C) 2011-2015 Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
- * Copyright (C) 2011-2015 Marta Soto <mrosa@icimaf.cu>
- *
- * This program is free software: you can redistribute it and/or modify it under
- * the terms of the GNU General Public License as published by the Free Software
- * Foundation, either version 3 of the License, or (at your option) any later
- * version.
- *
- * This program is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
- * details.
- *
- * You should have received a copy of the GNU General Public License along with
- * this program. If not, see <http://www.gnu.org/licenses/>.
- */
+// vines: Multivariate Dependence Modeling with Vines
+// Copyright (C) 2011-2015 Yasser Gonzalez Fernandez
+// Copyright (C) 2011-2015 Marta Soto Ortiz
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <R.h>
 #include <Rinternals.h>
@@ -33,7 +32,7 @@ SEXP hIndepCopula(SEXP X, SEXP V) {
  * Gaussian, Student's t, Clayton and Gumbel copulas.
  */
 
-SEXP hNormalCopula(SEXP Rho, SEXP X, SEXP V) {
+SEXP hNormalCopula(SEXP Rho, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double rho;
     double *x, *v, *u;
@@ -41,7 +40,7 @@ SEXP hNormalCopula(SEXP Rho, SEXP X, SEXP V) {
     SEXP U;
 
     PROTECT(U = allocVector(REALSXP, LENGTH(X)));
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     rho = asReal(Rho);
     x = REAL(X);
     v = REAL(V);
@@ -66,7 +65,7 @@ SEXP hNormalCopula(SEXP Rho, SEXP X, SEXP V) {
     return U;
 }
 
-SEXP hTCopula(SEXP Rho, SEXP Df, SEXP X, SEXP V) {
+SEXP hTCopula(SEXP Rho, SEXP Df, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double rho, df;
     double *x, *v, *u;
@@ -74,7 +73,7 @@ SEXP hTCopula(SEXP Rho, SEXP Df, SEXP X, SEXP V) {
     SEXP U;
 
     PROTECT(U = allocVector(REALSXP, LENGTH(X)));
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     rho = asReal(Rho);
     df = asReal(Df);
     x = REAL(X);
@@ -101,14 +100,14 @@ SEXP hTCopula(SEXP Rho, SEXP Df, SEXP X, SEXP V) {
     return U;
 }
 
-SEXP hClaytonCopula(SEXP Theta, SEXP X, SEXP V) {
+SEXP hClaytonCopula(SEXP Theta, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *x, *v, *u;
     double vi, ui;
     SEXP U;
 
-    eps = R_pow(DOUBLE_EPS, 0.15);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     if (theta <= eps) {
@@ -138,14 +137,14 @@ SEXP hClaytonCopula(SEXP Theta, SEXP X, SEXP V) {
     return U;
 }
 
-SEXP hGumbelCopula(SEXP Theta, SEXP X, SEXP V) {
+SEXP hGumbelCopula(SEXP Theta, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *x, *v, *u;
     double vi, ui, tmp, mlogxi, mlogvi;
     SEXP U;
 
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     if (theta <= eps) {
@@ -178,14 +177,14 @@ SEXP hGumbelCopula(SEXP Theta, SEXP X, SEXP V) {
     return U;
 }
 
-SEXP hFGMCopula(SEXP Theta, SEXP X, SEXP V) {
+SEXP hFGMCopula(SEXP Theta, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *x, *v, *u;
     double ui;
     SEXP U;
 
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     PROTECT(U = allocVector(REALSXP, LENGTH(X)));
@@ -214,14 +213,14 @@ SEXP hFGMCopula(SEXP Theta, SEXP X, SEXP V) {
  * for the expression for the Galambos and Frank copulas.
  */
 
-SEXP hGalambosCopula(SEXP Theta, SEXP X, SEXP V) {
+SEXP hGalambosCopula(SEXP Theta, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *x, *v, *u;
     double vi, ui, mlogxi, mlogvi, cdf;
     SEXP U;
 
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     if (theta <= eps) {
@@ -255,14 +254,14 @@ SEXP hGalambosCopula(SEXP Theta, SEXP X, SEXP V) {
     return U;
 }
 
-SEXP hFrankCopula(SEXP Theta, SEXP X, SEXP V) {
+SEXP hFrankCopula(SEXP Theta, SEXP X, SEXP V, SEXP Eps) {
     double eps;
     double theta;
     double *x, *v, *u;
     double vi, ui;
     SEXP U;
 
-    eps = R_pow(DOUBLE_EPS, 0.5);
+    eps = asReal(Eps);
     theta = asReal(Theta);
 
     if (fabs(theta) <= eps) {
