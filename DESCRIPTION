@@ -1,7 +1,7 @@
 Type: Package
 Package: vines
 Title: Multivariate Dependence Modeling with Vines
-Version: 1.1.4
+Version: 1.1.5
 Authors@R: c(person("Yasser", "Gonzalez-Fernandez",
                     role = c("aut", "cre"),
                     email = "ygonzalezfernandez@gmail.com"),
@@ -26,10 +26,10 @@ Collate: h.R hinverse.R Vine.R show.R dimnames.R vineParameters.R
         vineIter.R vineFit.R vineFitML.R vinePIT.R vineGoF.R
         vineOrder.R dvine.R pvine.R rvine.R
 NeedsCompilation: yes
-Packaged: 2015-10-07 16:28:25 UTC; yasserglez
+Packaged: 2016-07-28 07:04:41 UTC; yasserglez
 Author: Yasser Gonzalez-Fernandez [aut, cre],
   Marta Soto [aut],
   Joris Meys [ctb]
 Maintainer: Yasser Gonzalez-Fernandez <ygonzalezfernandez@gmail.com>
 Repository: CRAN
-Date/Publication: 2015-10-07 22:51:44
+Date/Publication: 2016-07-28 11:49:43
